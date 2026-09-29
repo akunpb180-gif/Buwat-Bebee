@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Period Care Premium App</title>
+    <!-- Google Fonts untuk font estetik -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fff5f6;
+            --primary: #ff7597;
+            --primary-dark: #e65c7e;
+            --text-main: #4a3b3d;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        /* Container mirip aplikasi HP Premium */
+        .app-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 400px;
+            height: 650px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(255, 117, 151, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Konten Halaman */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        /* Navigasi Bawah Premium */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+            border-radius: 0 0 30px 30px;
+            z-index: 10;
+        }
+
+        .nav-item {
+            font-size: 22px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            opacity: 0.4;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* Tipografi & Elemen Visual */
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #6e5d60;
+            margin-bottom: 20px;
+        }
+
+        .icon-header {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Kartu List Halaman 2 */
+        .care-list {
+            width: 100%;
+            text-align: left;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .care-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .care-item:last-child { margin-bottom: 0; }
+        .care-emoji { margin-right: 12px; font-size: 18px; }
+
+        /* Tombol Premium */
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 117, 151, 0.4);
+            transition: 0.3s;
+            text-decoration: none;
+            width: 80%;
+            margin-top: 10px;
+        }
+
+        .btn-premium:active {
+            transform: scale(0.95);
+        }
+
+        /* Generator Pesan Acak */
+        #booster-text {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- HALAMAN 1: WELCOME -->
+    <div class="page active" id="page1">
+        <div class="icon-header">🌸</div>
+        <h1>Hey, bebee sayangkuu </h1>
+        <p>Aku tahu hari ini mungkin terasa berat dan peyut kamu lagi kram samngat jadi web kecil ini khusus aku bikin buwat nemenin kamu hari ini.</p>
+        <button class="btn-premium" onclick="switchPage(1)">Mulai Self-Care ✨</button>
+    </div>
+
+    <!-- HALAMAN 2: CHECKLIST -->
+    <div class="page" id="page2">
+        <div class="icon-header">☕</div>
+        <h1>Your Period Guide</h1>
+        <p>Jangan dipaksa kerja keras ya hari ini, Ini checklist kecil biar kamu tetep nyaman:</p>
+        <div class="care-list">
+            <div class="care-item"><span class="care-emoji">💧</span> Minum air hangat yang banyak ya.</div>
+            <div class="care-item"><span class="care-emoji">🧸</span> Pakai kompres botol hangat di peyut.</div>
+            <div class="care-item"><span class="care-emoji">🍫</span> Kurangi es, ganti sama cokelat manis.</div>
+            <div class="care-item"><span class="care-emoji">🛌</span> Ambil posisi rebahan paling nyaman.</div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 3: MOOD BOOSTER -->
+    <div class="page" id="page3">
+        <div class="icon-header">💝</div>
+        <h1>Mood Booster</h1>
+        <p>Kalau kamu merasa cedii atau kesel tanpa alasan, klik tombol di bawah ini ya:</p>
+        <div id="booster-text">Klik tombol di bawah buat dapet peyukan virtual... ✨</div>
+        <button class="btn-premium" onclick="generateMood()">Klik di Sini 🔮</button>
+    </div>
+
+    <!-- HALAMAN 4: SERVICE / WHATSAPP -->
+    <div class="page" id="page4">
+        <div class="icon-header">📞</div>
+        <h1>I'm Here For You</h1>
+        <p>Butuh dibeliin makanan, atau cuma pengen ngomel-ngomel karena kesel? Hubungi pacar siaga kamu sekarang!</p>
+        <!-- Ubah nomor 6282298853381 jadi nomor WhatsApp kamu -->
+        <a href="https://wa.me..." class="btn-premium" target="_blank">Panggil Aku Sekarang 💗</a>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchPage(0)">🏠</div>
+        <div class="nav-item" onclick="switchPage(1)">📋</div>
+        <div class="nav-item" onclick="switchPage(2)">💖</div>
+        <div class="nav-item" onclick="switchPage(3)">💬</div>
+    </div>
+
+</div>
+
+<script>
+    // Sistem Pindah Halaman
+    function switchPage(pageIndex) {
+        const pages = document.querySelectorAll('.page');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        pages.forEach((page, index) => {
+            if(index === pageIndex) {
+                page.classList.add('active');
+                navItems[index].classList.add('active');
+            } else {
+                page.classList.remove('active');
+                navItems[index].classList.remove('active');
+            }
+        });
+    }
+
+    // Pesan Acak di Halaman 3
+    const quotes = [
+        "Kamu tetep cantik banget kok meskipun lagi cemberut 🥰",
+        "Sakitnya cuma sementara, tapi sayangku ke kamu selamanya! 💕",
+        "Kalau mau mara, marahin aku aja, jangan ditahan ya sayang.",
+        "Rebahan aja seharian ini, semua tugas atau kerjaan lupain dulu! 🛌",
+        "Aku syudaa ciap dengerin semua keluhan kamu hari ini. Cerita aja 🧸",
+        "Mawu GoFood cokelat atau seblak? Chat aku di halaman sebelah! 🍫🔥"
+    ];
+
+    function generateMood() {
+        const textEl = document.getElementById('booster-text');
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        
+        // Animasi teks memudar saat berganti
+        textEl.style.opacity = 0;
+        setTimeout(() => {
+            textEl.innerText = quotes[randomIndex];
+            textEl.style.opacity = 1;
+        }, 200);
+    }
+</script>
+
+</body>
+</html>
